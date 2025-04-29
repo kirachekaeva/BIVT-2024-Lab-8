@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_8
 {
-    internal class Blue_4: Blue
+    public class Blue_4: Blue
     {
         private int _output;
 
