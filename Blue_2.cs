@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_8
 {
-    internal class Blue_2: Blue
+    public class Blue_2: Blue
     {
         private string _output;
         private string _todel;
