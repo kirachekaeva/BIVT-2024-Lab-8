@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_8
 {
-    public class Blue_2: Blue
+    internal class Blue_2: Blue
     {
         private string _output;
         private string _todel;
@@ -14,7 +14,7 @@ namespace Lab_8
 
         public Blue_2(string input, string todel): base(input)
         {
-            _output = "";
+            _output = null;
             _todel = todel;
         }
 
@@ -22,55 +22,52 @@ namespace Lab_8
         {
             if (string.IsNullOrEmpty(_todel) || string.IsNullOrEmpty(Input))
             {
-                _output = "";
+                _output = null;
                 return;
             }
 
-            string[] w = Input.Split(' ');
-            string result = "";
-            bool firstWord = true;
+            string[] words = Input.Split(' ');
+            _output = Input;
 
-            foreach (string word in w)
+            foreach (string word in words)
             {
-                if (!word.Contains(_todel))
+                if (word.Contains(_todel))
                 {
-                    if (!firstWord)
-                        result += " ";
-                    result += word;
-                    firstWord = false;
-                }
-                else
-                {
-                    int startIndex = 0;
-                    while (startIndex < word.Length && char.IsPunctuation(word[startIndex]))
-                    {
-                        if (!firstWord && (startIndex == 0 || result[result.Length - 1] == ' '))
-                            result += " ";
-                        result += word[startIndex];
-                        startIndex++;
-                        firstWord = false;
-                    }
+                    bool hasPunctuation = word.Contains(".") || word.Contains(",") || word.Contains(";");
 
-                    int endIndex = word.Length - 1;
-                    while (endIndex >= startIndex && char.IsPunctuation(word[endIndex]))
+                    if (hasPunctuation)
                     {
-                        endIndex--;
+                        char lastChar = word[word.Length - 1];
 
-                        for (int i = endIndex + 1; i < word.Length; i++)
+                        if (word.Contains("\""))
                         {
-                            result += word[i];
+                            _output = _output.Replace(word, "\"\"" + lastChar);
+                        }
+                        else
+                        {
+                            _output = _output.Replace(word, lastChar.ToString());
                         }
                     }
+                    else
+                    {
+                        _output = _output.Replace(word + " ", "");
+                    }
                 }
-
-                _output = result.Trim();
             }
+
+            while (_output.Contains("  "))
+            {
+                _output = _output.Replace("  ", " ");
+            }
+
+            _output = _output.Trim();
         }
+    
 
         public override string ToString()
         {
             if (string.IsNullOrEmpty(_output))
-                return "";
+                return string.Empty;
 
             return _output;
         }
