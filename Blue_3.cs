@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +15,7 @@ namespace Lab_8
 
         public Blue_3(string input): base(input)
         {
-            _output = new (char, double)[0];
+            _output = null;
         }
 
         public override void Review()
@@ -43,7 +43,7 @@ namespace Lab_8
 
             if (totalWords == 0)
             {
-                _output = new (char, double)[0];
+                _output = null;
                 return;
             }
 
