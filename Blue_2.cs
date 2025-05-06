@@ -26,31 +26,38 @@ namespace Lab_8
                 return;
             }
 
-            string[] words = Input.Split(' ');
+            string[] words = Input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             _output = Input;
 
             foreach (string word in words)
             {
                 if (word.Contains(_todel))
                 {
-                    bool hasPunctuation = word.Contains(".") || word.Contains(",") || word.Contains(";");
+                    bool hasPunctuation = word.EndsWith(".") || word.EndsWith(",") || word.EndsWith(";") || word.EndsWith("-");
+                    string wordToRemove = word;
 
                     if (hasPunctuation)
                     {
                         char lastChar = word[word.Length - 1];
+                        string wordWithoutPunct = word.Substring(0, word.Length - 1);
 
-                        if (word.Contains("\""))
+                        if (wordWithoutPunct.Contains(_todel))
                         {
-                            _output = _output.Replace(word, "\"\"" + lastChar);
-                        }
-                        else
-                        {
-                            _output = _output.Replace(word, lastChar.ToString());
+                            if (word.Contains("\""))
+                            {
+                                _output = _output.Replace(" " + word, " \"\"" + lastChar);
+                            }
+                            else
+                            {
+                                _output = _output.Replace(" " + word, " " + lastChar);
+                                _output = _output.Replace(word, lastChar.ToString()); 
+                            }
                         }
                     }
                     else
                     {
                         _output = _output.Replace(word + " ", "");
+                        _output = _output.Replace(" " + word, "");
                     }
                 }
             }
@@ -60,9 +67,15 @@ namespace Lab_8
                 _output = _output.Replace("  ", " ");
             }
 
+            _output = _output.Replace(" ,", ",")
+                            .Replace(" .", ".")
+                            .Replace(" ;", ";")
+                            .Replace(" -", "-");
+
             _output = _output.Trim();
         }
-    
+
+
 
         public override string ToString()
         {
