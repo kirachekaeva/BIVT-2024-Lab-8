@@ -9,7 +9,7 @@ namespace Lab_8
     public class Blue_1: Blue
     {
         private string[] _output;
-        public string[] Output => _output;
+        public string[] Output => _output == null ? null : (string[])_output.Clone();
 
         public Blue_1(string input): base(input) {
             _output = null;
