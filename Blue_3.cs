@@ -11,7 +11,16 @@ namespace Lab_8
     {
         private (char, double)[] _output;
 
-        public (char, double)[] Output => _output;
+        public (char, double)[] Output
+        {
+            get
+            {
+                if (_output == null) return null;
+                var newarr = new (char, double)[_output.Length];
+                Array.Copy(_output, newarr, _output.Length);
+                return newarr;
+            }
+        }
 
         public Blue_3(string input): base(input)
         {
